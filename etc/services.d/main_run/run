@@ -1,2 +1,2 @@
 #!/command/with-contenv bash
-while true; do sleep 60
+while true; do sleep 60; done;
