@@ -29,8 +29,11 @@ app.get('/pull', async (req, res, next) => {
         res.json({ 'result': 'bad Api Key' })
         return
     }
-    const snapshot = await db.collection('spamLog').get()
-    res.json(snapshot.data())
+    await db.collection('spamLog').get().then(snap => {
+        res.json(snap.data())
+    })
+
+
 })
 
 app.post("/api", async (req, res, next) => {
