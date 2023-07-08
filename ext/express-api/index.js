@@ -3,7 +3,7 @@ const bodyParser = require("body-parser")
 const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue, Filter, DocumentSnapshot } = require('firebase-admin/firestore');
 const { format, zonedTimeToUtc, utcToZonedTime } = require('date-fns-tz')
-const json = require('json')
+
 
 const today = new Date()
 const timeZone = 'America/Denver'
