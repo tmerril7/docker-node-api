@@ -3,6 +3,7 @@ const bodyParser = require("body-parser")
 const { initializeApp, applicationDefault, cert } = require('firebase-admin/app');
 const { getFirestore, Timestamp, FieldValue, Filter, DocumentSnapshot } = require('firebase-admin/firestore');
 const { format, zonedTimeToUtc, utcToZonedTime } = require('date-fns-tz')
+const json = require('json')
 
 const today = new Date()
 const timeZone = 'America/Denver'
@@ -35,6 +36,11 @@ app.get('/pull', async (req, res, next) => {
         console.log(doc.data())
     })
 
+    json_arr = []
+    snapshot.forEach(doc => {
+        json_arr.append(doc.data())
+    })
+    res.json(json_arr)
 
 
 })
