@@ -30,7 +30,7 @@ app.get('/pull', async (req, res, next) => {
         return
     }
     const snapshot = await db.collection('spamLog').get()
-    res.json(snapshot)
+    res.json(snapshot.data())
 })
 
 app.post("/api", async (req, res, next) => {
