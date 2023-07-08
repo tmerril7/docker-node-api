@@ -38,7 +38,7 @@ app.get('/pull', async (req, res, next) => {
 
     json_arr = []
     snapshot.forEach(doc => {
-        json_arr.append(doc.data())
+        json_arr.push(doc.data())
     })
     res.json(json_arr)
 
