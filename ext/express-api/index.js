@@ -12,6 +12,7 @@ console.log(format(localToday, 'yyyy-MM-dd HH:mm:ss'))
 
 const apiKeyBase = require('/ext/apiKeyBase.json')
 console.log(apiKeyBase.key)
+
 const serviceAccount = require('/ext/AccountKey.json');
 initializeApp({
     credential: cert(serviceAccount)
@@ -29,9 +30,11 @@ app.get('/pull', async (req, res, next) => {
         res.json({ 'result': 'bad Api Key' })
         return
     }
-    await db.collection('spamLog').get().then(snap => {
-        res.json(snap.data())
+    const snapshot = await db.collection('spamLog').get()
+    snapshot.forEach(doc => {
+        console.log(doc.data())
     })
+
 
 
 })
