@@ -24,6 +24,15 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(bodyParser.raw())
 
+app.get('/pull', async (req, res, next) => {
+    if (req.body.apiKey != apiKeyBase.key) {
+        res.json({ 'result': 'bad Api Key' })
+        return
+    }
+    const snapshot = await db.collection('spamLog').get()
+    res.json(snapshot)
+})
+
 app.post("/api", async (req, res, next) => {
     if (req.body.apiKey != apiKeyBase.key) {
         res.json({ 'result': 'bad Api Key' })
