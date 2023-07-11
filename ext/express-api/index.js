@@ -26,15 +26,15 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(bodyParser.raw())
 
-app.get('/pull', async (req, res, next) => {
-    if (req.body.apiKey != apiKeyBase.key) {
-        res.json({ 'result': 'bad Api Key' })
-        return
-    }
+app.get('/pull-spam', async (req, res, next) => {
+    // if (req.body.apiKey != apiKeyBase.key) {
+    //     res.json({ 'result': 'bad Api Key' })
+    //     return
+    // }
     const snapshot = await db.collection('spamLog').get()
-    snapshot.forEach(doc => {
-        console.log(doc.data())
-    })
+    // snapshot.forEach(doc => {
+    //     console.log(doc.data())
+    // })
 
     json_arr = []
     snapshot.forEach(doc => {
@@ -45,7 +45,29 @@ app.get('/pull', async (req, res, next) => {
 
 })
 
-app.post("/api", async (req, res, next) => {
+app.post("/call-log", async (req, res, next) => {
+    if (req.body.apiKey != apiKeyBase.key) {
+        res.json({ 'result': 'bad Api Key' })
+        return
+    }
+    res.json({ 'result': 'success' });
+    // console.log(req.body)
+    const localTimeStamp = utcToZonedTime(new Date(), timeZone)
+    const docRef = db.collection('callLog').doc(localTimeStamp.valueOf() + '-' + req.body.site);
+    try {
+        await docRef.set({
+            Date: format(localTimeStamp, 'MM-dd-yyyy'),
+            localTime: format(localTimeStamp, 'HH:mm:ss'),
+            cnam: req.body.cnam,
+            num: req.body.num,
+            site: req.body.site,
+            localTimeStamp: localTimeStamp.valueOf()
+        });
+    }
+    catch { }
+});
+
+app.post("/spam-log", async (req, res, next) => {
     if (req.body.apiKey != apiKeyBase.key) {
         res.json({ 'result': 'bad Api Key' })
         return
